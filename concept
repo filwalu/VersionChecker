@@ -1,23 +1,25 @@
-project_name/
+VersionChecker/
 │
-├── frontend/
-│   ├── static/
-│   │   ├── css/
-│   │   │   └── style.css
-│   │   └── js/
-│   │       └── script.js
-│   └── templates/
-│       ├── index.html
-│       └── results.html
+├── app/
+│   ├── frontend/
+│   │   ├── static/
+│   │   │   ├── css/
+│   │   │   │   └── style.css
+│   │   │   └── js/
+│   │   │       └── script.js
+│   │   └── templates/
+│   │       ├── index.html
+│   │       └── results.html
+│   ├── handler/
+│   │   ├── __init__.py
+│   │   ├── playbook_handler.py
+│   │   └── result_handler.py
+│   ├── playbook/
+│   │   ├── playbook1.yml
+│   │   └── playbook2.yml
+│   ├── app.py
+│   └── requirements.txt
 │
-├── handler/
-│   ├── __init__.py
-│   ├── playbook_handler.py
-│   └── result_handler.py
-│
-├── playbook/
-│   ├── playbook1.yml
-│   └── playbook2.yml
-│
-├── app.py
-└── requirements.txt
+└── docker/
+    ├── docker-compose.yml
+    └── Dockerfile
