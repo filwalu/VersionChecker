@@ -1,1 +1,4 @@
-.venv
+venv
+app/handler/results/test.json
+app/app.log
+app.log
