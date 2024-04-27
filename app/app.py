@@ -1,13 +1,16 @@
 from flask import Flask, request, render_template
 from loguru import logger
 import json
+import os
+
 
 app = Flask(__name__)
 
 logger.add("app.log", rotation="10 MB", retention="7 days", level="DEBUG")
 logger.add(lambda msg: print(msg, end=''), level="TRACE")
 
-json_file_path = "handler/results/test.json"
+json_base_path = "handler/results/"
+hosts_base_path = "handler/ansible/hosts/"
 
 @app.after_request
 def log_request(response):
@@ -18,12 +21,21 @@ def log_request(response):
 def index():
     logger.info("Index route called")
     try:
-        with open(json_file_path) as f:
-            json_content = f.read()
-            logger.debug(f"JSON file content: {json_content}")
-            data = json.loads(json_content)
-        logger.info(f"Data type: {type(data)}")
-        return render_template('index.j2', data=data)
+        hosts_files = os.listdir(hosts_base_path)
+        host_name = request.args.get('host')
+        if host_name:
+            json_file_path = os.path.join(json_base_path, f"{host_name}.json")
+            if os.path.exists(json_file_path):
+                with open(json_file_path) as f:
+                    json_content = f.read()
+                    logger.debug(f"JSON file content: {json_content}")
+                    data = json.loads(json_content)
+                logger.info(f"Data type: {type(data)}")
+                return render_template('index.j2', data=data, host=host_name, hosts_files=hosts_files)
+            else:
+                return "No info about host"
+        else:
+            return render_template('hosts.j2', hosts_files=hosts_files)
     except Exception as e:
         logger.error(f"An error occurred: {e}")
         return "An error occurred while loading data"
