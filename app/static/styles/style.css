@@ -1,0 +1,9 @@
+.nav-buttons {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.nav-buttons form {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
