@@ -6,14 +6,21 @@
     <title>Test JSON Table</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}"/>
 </head>
-<body>
+<body>   
+    <div id="loading">
+    <!-- source https://loading.io/ -->
+        <img src="{{ url_for('static', filename='images/loading.gif') }}" alt="Loading...">
+    </div>
     <nav>
         <div class="nav-buttons">
-            <h2>Welcome to the Test JSON Table App!</h2>
-            <p>Choose a host:</p>
+            <div>
+                <h2>VersionChecker</h2>
+                <p class="small-text">Version: {{ version }}</p>
+                <p class="small-text">Commit_id: {{ commit_id }}</p>
+            </div>
 
             {% for host_file in hosts_files %}
-                <form action="/index" method="get">
+                <form action="/index" method="get" class="nav-button">
                     <input type="hidden" name="host" value="{{ host_file }}">
                     <button type="submit">{{ host_file }}</button>
                 </form>
@@ -21,11 +28,11 @@
         </div>
     </nav>
     <header>
-        <h1>Test JSON Table</h1>
+        <h1>Selected host file: {{ selected_host }}</h1>
     </header>
     <main>
         {% if data %}
-            <table border="1">
+            <table>
                 <thead>
                     <tr>
                         <th>Service</th>
@@ -41,9 +48,10 @@
                     {% endfor %}
                 </tbody>
             </table>
-        {% else %}
-            <p>No info about host</p>
         {% endif %}
     </main>
+
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
