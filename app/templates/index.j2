@@ -3,54 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test JSON Table</title>
+    <title>VersionChecker</title>
+    <!-- source https://favicon.io/ -->
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favicon_io/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon_io/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon_io/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='images/favicon_io/site.webmanifest') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon_io/favicon.ico') }}" type="image/x-icon">
 </head>
+<header class="header">
+    <div class="headerr">
+    <h1>Selected host file: {{ selected_host }}</h1>
+    <div class="version-info">
+        <h2>VersionChecker</h2>
+  
+    </div>
+    </div>
+    </header>
 <body>   
     <div id="loading">
     <!-- source https://loading.io/ -->
         <img src="{{ url_for('static', filename='images/loading.gif') }}" alt="Loading...">
     </div>
-    <nav>
-        <div class="nav-buttons">
-            <div>
-                <h2>VersionChecker</h2>
-                <p class="small-text">Version: {{ version }}</p>
-                <p class="small-text">Commit_id: {{ commit_id }}</p>
-            </div>
-
-            {% for host_file in hosts_files %}
-                <form action="/index" method="get" class="nav-button">
-                    <input type="hidden" name="host" value="{{ host_file }}">
-                    <button type="submit">{{ host_file }}</button>
-                </form>
-            {% endfor %}
-        </div>
-    </nav>
-    <header>
-        <h1>Selected host file: {{ selected_host }}</h1>
-    </header>
+   
     <main>
-        {% if data %}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Service</th>
-                        <th>Version</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for service, version in data.items() %}
-                        <tr>
-                            <td>{{ service }}</td>
-                            <td>{{ version }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% endif %}
-    </main>
+        <div class="container">
+            <nav>
+                <div class="nav-buttons">
+                    <div>
+                        <h2>Choose host:</h2>
+                        
+                    </div>
 
+                    {% for host_file in hosts_files %}
+                        <form action="/index" method="get" class="button-1">
+                            <input type="hidden" name="host" value="{{ host_file }}">
+                            <button type="submit">{{ host_file }}</button>
+                        </form>
+                    {% endfor %}
+                </div>
+            </nav>
+            {% if data %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Version</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for service, version in data.items() %}
+                            <tr>
+                                <td>{{ service }}</td>
+                                <td>{{ version }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </main>
+<footer class="footer">
+    <div class="footerr">
+        <div class="commit-id">Commit ID: {{ commit_id }}</div>
+        <p class="small-text">Version: {{ version }}</p>
+    </div>
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>

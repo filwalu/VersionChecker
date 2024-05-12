@@ -1,4 +1,9 @@
 venv
 app/handler/results/test.json
+app/handler/results/test2.json
+app/handler/results/test3.json
+
 app/app.log
 app.log
+app/handler/ansible/hosts/test2
+app/handler/ansible/hosts/test3

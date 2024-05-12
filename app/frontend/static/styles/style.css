@@ -1,39 +1,74 @@
 body {
+    color: white;
     margin: 0;
-    padding: 20px;
+    overflow: overlay;
+    padding-top: 100px;
+    padding-right: 10px;
+    padding-bottom: 30px;
+    padding-left: 10px;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #030385, #156b83);
+    scrollbar-width: thin;
+    scrollbar-color: #ff0000 transparent;
+    scroll-snap-type: inherit;
+    background-color: #030385;
+    background-image: linear-gradient(315deg, #030385 0%, #156b83 74%);
+}
+.headerr{
+    display: flex;
+    justify-content: space-between;
+}
+.header {
+    position: fixed;
+    background: linear-gradient(to right, #030385, #156b83);
+    top: 0;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 2px -2px rgba(255, 255, 255, 0.2),
+                0 -2px 2px -2px rgba(255, 255, 255, 0.2);
+    z-index: 1;
+}
+
+.version-info {
+    text-align: right;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-right: 20px;
 }
 .nav-button button {
     border: none;
 }
 .nav-buttons {
     display: flex;
-    align-items: center;
-    gap: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    background: none;
+    flex: 1;
 }
 
-.nav-buttons div:first-child {
-    flex-grow: 1;
+.container {
+    display: flex;
 }
-
 .nav-buttons .nav-button {
     margin: 0;
-    padding: 10px;
-    border: 1px solid #000;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    width: 100%;
 }
-
 .small-text {
     font-size: 10px;
 }
 
 table {
-    width: 100%;
+    width: 60%;
     border-collapse: collapse;
     text-align: center;
+    flex: 3;
     margin-top: 20px;
 }
 
@@ -43,13 +78,53 @@ th, td {
 }
 
 th {
-    background-color: #4CAF50;
+    background-color: #393663;
     color: white;
 }
 
 td:first-child {
     text-align: left;
     padding-left: 20px;
+}
+
+
+.button-1 [type="submit"] {
+    background: none;
+    background-color: #2427e9;
+    border-radius: 8px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    list-style: none;
+    margin: 0;
+    outline: none;
+    padding: 10px 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: color 100ms;
+    vertical-align: baseline;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    background-clip: padding-box;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.button-1[type="submit"] {
+    background-color: #000000;
+}
+
+.button-1:hover,
+.button-1:focus {
+    background-color: #000000;
 }
 
 td:nth-child(2) {
@@ -70,8 +145,8 @@ td:nth-child(2) {
 }
 
 #loading img {
-    width: 50px; /* Adjust as needed */
-    height: 50px; /* Adjust as needed */
+    width: 50px;
+    height: 50px;
 }
 
 body > *:not(#loading):not(table):not(th) {
@@ -81,4 +156,59 @@ body > *:not(#loading):not(table):not(th) {
 .hide {
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
+}
+
+.commit-id {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    opacity: 0.5;
+}
+
+body {
+    background: linear-gradient(to right, #030385, #156b83);
+}
+
+table {
+    border: 1px solid black;
+}
+
+table th, table td {
+    border: 1px solid black;
+}
+
+#overlay::-webkit-scrollbar {
+    width: 10px;
+}
+
+#overlay::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#overlay::-webkit-scrollbar-thumb {
+    background: rgba(255, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+#overlay::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 0, 0, 0.7);
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+table {
+    border: 1px solid black;
+}
+
+table th, table td {
+    border: 1px solid black;
+}
+body {
+    background-attachment: fixed;
+}
+
+html {
+    background-color: #030385; /* Add this line */
+    background-image: linear-gradient(315deg, #030385 0%, #156b83 74%);
+
 }

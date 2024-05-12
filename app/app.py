@@ -12,7 +12,7 @@ logger.add("app.log", rotation="10 MB", retention="7 days", level="DEBUG")
 logger.add(lambda msg: print(msg, end=''), level="TRACE")
 
 json_base_path = "handler/results/"
-hosts_base_path = "handler/ansible/hosts/"
+hosts_base_path = "handler/fetch/hosts/"
 
 def get_commit_id():
     try:
