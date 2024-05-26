@@ -17,8 +17,6 @@
     <h1>Selected host file: {{ selected_host }}</h1>
     <div class="version-info">
         <a href="{{ url_for('upload') }}" class="button">Upload</a>
-        <a href="{{ url_for('update') }}" class="button">Fetch</a>
-
         <h2>VersionChecker</h2>
   
     </div>
@@ -47,24 +45,6 @@
                     {% endfor %}
                 </div>
             </nav>
-            {% if data %}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Service</th>
-                            <th>Version</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for service, version in data.items() %}
-                            <tr>
-                                <td>{{ service }}</td>
-                                <td>{{ version }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% endif %}
         </div>
     </main>
 <footer class="footer">

@@ -3,8 +3,9 @@ from loguru import logger
 import json
 import os
 import subprocess
+from handler.version_fetch import update_service_versions  # Import the function
 
-VERSION = '0.1.0'
+VERSION = '0.1.2'
 
 app = Flask(__name__, template_folder='./templates', static_folder='./frontend/static')
 
@@ -63,7 +64,7 @@ def details():
                     logger.info(f"Data type: {type(data)}")
                     return render_template('index.j2', data=data, host=host_name, hosts_files=hosts_files, version=VERSION, commit_id=commit_id, selected_host=host_name)
                 else:
-                    return "No info about host"
+                    return render_template('fallback.j2', hosts_files=hosts_files, version=VERSION, commit_id=commit_id, selected_host=host_name)
             else:
                 return "No host selected"
         elif request.method == 'POST':
@@ -71,7 +72,28 @@ def details():
             pass
     except Exception as e:
         logger.error(f"An error occurred: {e}")
-        return "An error occurred while loading data"
+        return render_template('fallback.j2', hosts_files=hosts_files, version=VERSION, commit_id=commit_id, selected_host=host_name)
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        # handle file upload here
+        pass
+
+    return render_template('upload.j2')
+
+@app.route('/update', methods=['POST'])
+def update():
+    host = request.form.get('host')
+    if host:
+        results_file = f'handler/results/{host}.json'
+        if not os.path.exists(results_file):
+            with open(results_file, 'w') as f:
+                json.dump({}, f)
+        update_service_versions('handler/fetch/hosts/', results_file, 'handler/fetch/id_ed25519')
+        return 'OK', 200
+    else:
+        return 'No host provided', 400
 
 def flask_app():
     create_version_file()

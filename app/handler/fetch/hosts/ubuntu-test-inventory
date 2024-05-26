@@ -1,8 +1,5 @@
-[all]
-192.168.6.3 ansible_ssh_user=ubuntu
-
-[services]
-192.168.6.3
-
-[services:vars]
-services=["service1", "service2", "service3"]
+{
+    "username": "ubuntu",
+    "address": "192.168.1.1",
+    "services": "service1, service2, service3"
+}

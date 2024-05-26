@@ -1,29 +1,37 @@
 import os
-from cryptography.fernet import Fernet
+import json
+import paramiko
 
-def decrypt_file(file_path, key):
-    cipher_suite = Fernet(key)
+def update_service_versions(directory, results_file, private_key_path):
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-    with open(file_path, 'rb') as file:
-        encrypted_data = file.read()
+    private_key = paramiko.RSAKey(filename=private_key_path)
 
-    decrypted_data = cipher_suite.decrypt(encrypted_data)
+    files = os.listdir(directory)
 
-    return decrypted_data.decode()
+    results = {}
 
-def read_encrypted_files(directory_path, key):
-    decrypted_files = {}
+    for file in files:
+        with open(os.path.join(directory, file), 'r') as f:
+            data = json.load(f)
 
-    for filename in os.listdir(directory_path):
-        file_path = os.path.join(directory_path, filename)
-        decrypted_files[filename] = decrypt_file(file_path, key)
+            for host in data['hosts']:
+                for service in data['services']:
+                    try:
+                        ssh.connect(host, username='username', pkey=private_key)
 
-    return decrypted_files
+                        sftp = ssh.open_sftp()
+                        with sftp.file(f'/opt/{service}/VERSION', 'r') as version_file:
+                            version = version_file.read().strip()
 
-# Wczytywanie klucza
-with open("secret.key", "rb") as key_file:
-    key = key_file.read()
+                        results.setdefault(host, {})[service] = version
 
-decrypted_files = read_encrypted_files('fetch/hosts', key)
+                        sftp.close()
+                        ssh.close()
+                    except Exception as e:
+                        print(f"Failed to get version for {service} on {host}: {e}")
 
-print(decrypted_files)
+    with open(results_file, 'w') as f:
+        json.dump(results, f, indent=4)
+

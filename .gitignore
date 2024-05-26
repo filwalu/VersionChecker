@@ -1,9 +1,8 @@
 venv
-app/handler/results/test.json
-app/handler/results/test2.json
-app/handler/results/test3.json
-
+app/handler/results/
+app/handler/__pycache__/
 app/app.log
 app.log
-app/handler/ansible/hosts/test2
-app/handler/ansible/hosts/test3
+app/handler/fetch/hosts/
+app/handler/fetch/id_ed25519
+app/handler/fetch/hosts/ubuntu-test-inventory
