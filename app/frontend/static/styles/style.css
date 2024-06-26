@@ -5,7 +5,6 @@ body {
     padding-top: 100px;
     padding-right: 10px;
     padding-bottom: 30px;
-    padding-left: 10px;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
     background: linear-gradient(to right, #030385, #156b83);
@@ -14,11 +13,15 @@ body {
     scroll-snap-type: inherit;
     background-color: #030385;
     background-image: linear-gradient(315deg, #030385 0%, #156b83 74%);
+    background-attachment: fixed;
 }
-.headerr{
+
+.headerr {
     display: flex;
+    width: 100%;
     justify-content: space-between;
 }
+
 .header {
     position: fixed;
     background: linear-gradient(to right, #030385, #156b83);
@@ -42,9 +45,11 @@ body {
     align-items: center;
     padding-right: 20px;
 }
+
 .nav-button button {
     border: none;
 }
+
 .nav-buttons {
     display: flex;
     flex-direction: column;
@@ -56,10 +61,12 @@ body {
 .container {
     display: flex;
 }
+
 .nav-buttons .nav-button {
     margin: 0;
     width: 100%;
 }
+
 .small-text {
     font-size: 10px;
 }
@@ -86,7 +93,6 @@ td:first-child {
     text-align: left;
     padding-left: 20px;
 }
-
 
 .button-1 [type="submit"] {
     background: none;
@@ -132,7 +138,7 @@ td:nth-child(2) {
 }
 
 #loading {
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     position: fixed;
@@ -142,20 +148,16 @@ td:nth-child(2) {
     height: 100%;
     width: 100%;
     background: rgba(255, 255, 255, .8);
+    text-align: center;
 }
 
 #loading img {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
 }
 
-body > *:not(#loading):not(table):not(th) {
+body.loading > *:not(#loading) {
     display: none;
-}
-
-.hide {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
 }
 
 .commit-id {
@@ -163,18 +165,6 @@ body > *:not(#loading):not(table):not(th) {
     bottom: 0;
     left: 0;
     opacity: 0.5;
-}
-
-body {
-    background: linear-gradient(to right, #030385, #156b83);
-}
-
-table {
-    border: 1px solid black;
-}
-
-table th, table td {
-    border: 1px solid black;
 }
 
 #overlay::-webkit-scrollbar {
@@ -193,22 +183,87 @@ table th, table td {
 #overlay::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 0, 0, 0.7);
 }
+
 ::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.2);
 }
-table {
-    border: 1px solid black;
+
+.notification {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    z-index: 1000;
 }
 
-table th, table td {
-    border: 1px solid black;
-}
-body {
-    background-attachment: fixed;
+.notification.success {
+    background-color: #4CAF50;
+    color: white;
 }
 
-html {
-    background-color: #030385; /* Add this line */
-    background-image: linear-gradient(315deg, #030385 0%, #156b83 74%);
+.notification.error {
+    background-color: #f44336;
+    color: white;
+}
 
+.popup, .notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    border-radius: 5px;
+    z-index: 1000;
+    font-size: 16px;
+    display: none; /* Hidden by default */
+}
+
+.notification.success {
+    background: rgba(0, 255, 0, 0.8);
+}
+
+.notification.error {
+    background: rgba(255, 0, 0, 0.8);
+}
+
+/* Style for the fetch button */
+.button {
+    background: none;
+    background-color: #2427e9;
+    border-radius: 8px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    list-style: none;
+    margin: 0 10px;
+    outline: none;
+    padding: 10px 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: color 100ms;
+    vertical-align: baseline;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    background-clip: padding-box;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.button:hover,
+.button:focus {
+    background-color: #000000;
 }

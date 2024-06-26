@@ -1,0 +1,53 @@
+\chapter{Opis założeń projektu}
+\section{Cele projektu}
+
+Celem naszego projektu jest stworzenie zaawansowanej aplikacji do sprawdzania wersji serwisów działających na serwerach Linux. Dążymy do zaprojektowania i implementacji aplikacji, która umożliwia administratorom szybkie i łatwe sprawdzenie wersji zainstalowanych serwisów. Projekt ten ma kluczowe znaczenie dla naszych studiów informatycznych, koncentrując się na wykorzystaniu praktycznych umiejętności programistycznych do rozwiązania realnych problemów w zarządzaniu serwerami.
+
+\begin{itemize}
+\item \textbf{Jaki jest cel projektu?} Stworzenie aplikacji do zarządzania wersjami serwisów na serwerach Linux, który usprawnia monitorowanie i zarządzanie wersjami oprogramowania.
+\item \textbf{Jaki jest problem, który będzie rozwiązywany oraz proszę wskazać podstawowe źródło problemu?} Problemem jest brak zautomatyzowanego narzędzia do monitorowania wersji serwisów na wielu serwerach, co prowadzi do trudności w utrzymaniu aktualności oprogramowania.
+\item \textbf{Dlaczego ten problem jest ważny oraz jakie są dowody potwierdzające jego istnienie?} Niezaktualizowane oprogramowanie może prowadzić do problemów z bezpieczeństwem i wydajnością. Automatyzacja tego procesu jest niezbędna do utrzymania stabilności i bezpieczeństwa systemów.
+\item \textbf{Co jest niezbędne, aby problem został rozwiązany przez zespół i dlaczego?} Niezbędne jest zastosowanie nowoczesnych technologii i metod programowania, aby stworzyć elastyczny i skalowalny system do monitorowania wersji serwisów.
+\item \textbf{W jaki sposób problem zostanie rozwiązany?} Poprzez zaprojektowanie i implementację aplikacji w Pythonie, wykorzystującej framework Flask oraz bibliotekę Paramiko do zarządzania serwerami Linux.
+\end{itemize}
+
+\section{Wymagania funkcjonalne i niefunkcjonalne}
+
+\noindent \textbf{Definicja:}
+
+Wymagania funkcjonalne określają konkretną funkcjonalność lub zachowanie aplikacji, które musi zostać zaimplementowane. Obejmują one specyficzne zadania lub funkcje, które aplikacja powiniena być w stanie wykonać, takie jak przetwarzanie danych, wykonanie obliczeń, reakcja na określone wejścia użytkownika, i inne wymagane operacje.
+
+Wymagania niefunkcjonalne dotyczą ogólnych jakości aplikcaji, takich jak wydajność, bezpieczeństwo, skalowalność, niezawodność, łatwość użytkowania, i zgodność ze standardami. Te wymagania nie opisują bezpośrednio działań aplikacji, ale określają atrybuty, które muszą być spełnione, aby aplikacja była użyteczna i efektywna w swoim środowisku pracy.
+
+\section{Wymagania Funkcjonalne}
+
+Wymagania funkcjonalne aplikacji obejmują:
+
+\begin{itemize}
+\item Sprawdzanie wersji serwisów: Użytkownik za pomocą prostego interfejsu może szybko zweryfikować, jakie wersje serwisów są zainstalowane na serwerze.
+\item Aktualizacja informacji o serwerze: Użytkownik może zaktualizować informacje o serwerze, takie jak lista monitorowanych serwisów.
+\item Bezpieczne zakończenie pracy z aplikacją przez użytkownika.
+\end{itemize}
+
+\section{Wymagania Niefunkcjonalne}
+
+Wymagania niefunkcjonalne projektu są równie istotne, zapewniając:
+
+\begin{itemize}
+\item Skalowalność i wydajność: Aplikacja została zaprojektowana z myślą o obsłudze dużej liczby serwerów i użytkowników, zapewniając płynną pracę nawet przy wysokim obciążeniu, co jest kluczowe dla zapewnienia ciągłości działania.
+\item Szybki czas odpowiedzi i efektywność działania aplikacji.
+\item Utrzymywalność i łatwość modyfikacji: Kod źródłowy aplikacji jest zgodny z najlepszymi praktykami programistycznymi, co ułatwia wprowadzanie zmian, aktualizacji oraz szybką diagnozę i naprawę ewentualnych błędów.
+\item Możliwość przeprowadzania testów jednostkowych i integracyjnych.
+\end{itemize}
+
+\section{Oczekiwania jakościowe aplikacji dedykowanej}
+
+Teraz nadchodzi część, w której definiujemy oczekiwania jakościowe aplikacji dedykowanej zarządzania wersjami serwisów. Te atrybuty opisują sposoby, w jakie oczekujemy, że aplikacja będzie się zachowywała:
+
+\begin{itemize}
+\item \textbf{Użyteczność produktu:} Aplikacja powinna charakteryzować się intuicyjnym i łatwym w użyciu interfejsem, minimalizującym potrzebę szkoleń i umożliwiającym szybki dostęp do wszystkich kluczowych funkcji.
+\item \textbf{Dostępność aplikacji:} Aplikacja powiniena być dostępna 24/7/365, z zapewnieniem ciągłości działania nawet w przypadku awarii czy nieprzewidzianych sytuacji.
+\item \textbf{Wydajność aplikacji:} Oczekuje się, że czas odpowiedzi aplikcaji na kluczowe operacje (np. sprawdzanie wersji serwisów) nie będzie przekraczał 10 sekund, a funkcje offline będą dostępne przez co najmniej 24h.
+\end{itemize}
+
+\clearpage

@@ -3,9 +3,11 @@ from loguru import logger
 import json
 import os
 import subprocess
-from handler.version_fetch import update_service_versions  # Import the function
+import paramiko
+import threading
+from handler.watcher import Watcher  # Import the Watcher class
 
-VERSION = '0.1.2'
+VERSION = '0.3.0'
 
 app = Flask(__name__, template_folder='./templates', static_folder='./frontend/static')
 
@@ -15,12 +17,73 @@ logger.add(lambda msg: print(msg, end=''), level="TRACE")
 json_base_path = "handler/results/"
 hosts_base_path = "handler/fetch/hosts/"
 
+def update_service_versions(directory, results_file, private_key_path, host_name):
+    logger.info(f"Updating service versions for {host_name} in {directory}")
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+    try:
+        logger.info(f"Loading private key from {private_key_path}")
+        private_key = paramiko.Ed25519Key(filename=private_key_path)
+        logger.info("Private key loaded successfully")
+    except Exception as e:
+        logger.error(f"Failed to load private key: {e}")
+        return
+
+    host_file = os.path.join(directory, host_name)
+    logger.info(f"Using host file: {host_file}")
+    results = {}
+
+    try:
+        with open(host_file, 'r') as f:
+            host_content = f.read()
+            logger.debug(f"Host file content: {host_content}")
+            data = json.loads(host_content)
+    except Exception as e:
+        logger.error(f"Failed to read or parse host file {host_file}: {e}")
+        return
+
+    if os.path.exists(results_file):
+        try:
+            with open(results_file, 'r') as f:
+                results = json.load(f)
+        except Exception as e:
+            logger.error(f"Failed to read or parse results file {results_file}: {e}")
+            return
+    else:
+        logger.info(f"Results file for {host_name} does not exist. Creating it.")
+        services = [service.strip() for service in data['services'].split(',')]
+        results = {service: "null" for service in services}
+        with open(results_file, 'w') as f:
+            json.dump(results, f, indent=4)
+
+    username = data['username']
+    address = data['address']
+    services = [service.strip() for service in data['services'].split(',')]
+
+    for service in services:
+        try:
+            logger.info(f"Attempting to connect to {username}@{address} using key {private_key_path}")
+            ssh.connect(address, username=username, pkey=private_key)
+            logger.info(f"Connected to {username}@{address}")
+            sftp = ssh.open_sftp()
+            with sftp.file(f'/opt/{service}/VERSION', 'r') as version_file:
+                version = version_file.read().strip()
+            results[service] = version.decode('utf-8')  # Decode bytes to string
+            sftp.close()
+            ssh.close()
+        except Exception as e:
+            logger.error(f"Failed to get version for {service} on {address}: {e}")
+
+    with open(results_file, 'w') as f:
+        json.dump(results, f, indent=4)
+
 def get_commit_id():
     try:
         commit_id = subprocess.check_output(['git', 'rev-parse', 'HEAD'], universal_newlines=True).strip()
         return commit_id
     except subprocess.CalledProcessError:
-        print("Failed to get commit id")
+        logger.error("Failed to get commit id")
         return None
 
 def get_hosts_list():
@@ -85,18 +148,25 @@ def upload():
 @app.route('/update', methods=['POST'])
 def update():
     host = request.form.get('host')
+    logger.info(f"Current host: {host}")
     if host:
         results_file = f'handler/results/{host}.json'
-        if not os.path.exists(results_file):
-            with open(results_file, 'w') as f:
-                json.dump({}, f)
-        update_service_versions('handler/fetch/hosts/', results_file, 'handler/fetch/id_ed25519')
-        return 'OK', 200
+        try:
+            update_service_versions('handler/fetch/hosts/', results_file, 'handler/fetch/id_ed25519', host)
+            return 'OK', 200
+        except Exception as e:
+            logger.error(f"Failed to update service versions: {e}")
+            return str(e), 500
     else:
+        logger.error("No host provided")
         return 'No host provided', 400
 
 def flask_app():
     create_version_file()
+    watcher = Watcher()
+    watcher_thread = threading.Thread(target=watcher.run)
+    watcher_thread.daemon = True
+    watcher_thread.start()
     app.run(host='0.0.0.0', port=5001, debug=True, use_reloader=False)
     logger.info("Flask server shutdown.")
 
@@ -106,3 +176,4 @@ if __name__ == '__main__':
             flask_app()
     except Exception as e:
         logger.error(f"An error occurred: {e}")
+

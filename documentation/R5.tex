@@ -1,0 +1,17 @@
+\chapter{Podsumowanie}
+W ramach projektu Aplikacja pozwalająca na szybkie sprawdzenie wersji serwisów na serwerach Linux szereg prac, w tym:
+\begin{itemize}
+    \item Implementacja systemu logowania błędów do pliku app.log za pomocą biblioteki loguru.
+    \item Uruchomienie prostego serwera www działającego na lokalnym hoście, dzięki bibliotece Flask.
+    \item Przygotowanie interfejsu użytkownika na stronie www za pomocą templateów Jinja, kodu CSS oraz JavaScript.
+    \item Wykorzystanie plików JSON do przechowywania danych o serwisach i wersjach, oraz docelowych hostach.
+    \item Wykorzystanie biblioteki paramiko do obsługi połączeń SSH do docelowych hostów, za pomocą prywatnego klucza.
+\end{itemize}
+
+
+W dalszej kolejności planowane są następujące prace rozwojowe:
+\begin{itemize}
+    \item Konteneryzacja aplikacji z wykorzystaniem Docker, co ułatwi wdrożenie i skalowalność.
+    \item Rozbudowa obsługi wyjątków dla zwiększenia stabilności i niezawodności aplikacji.
+    \item Wdrożenie obsługi requestów /POST w celu możliwości dodania pliku hosta bez potrzeby umieszczania go bezpośrednio w plikach.
+\end{itemize}

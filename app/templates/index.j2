@@ -5,40 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VersionChecker</title>
     <!-- source https://favicon.io/ -->
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}"/>
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favicon_io/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon_io/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon_io/favicon-16x16.png') }}">
     <link rel="manifest" href="{{ url_for('static', filename='images/favicon_io/site.webmanifest') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon_io/favicon.ico') }}" type="image/x-icon">
 </head>
+<body>  
 <header class="header">
     <div class="headerr">
-    <h1>Selected host file: {{ selected_host }}</h1>
-    <div class="version-info">
-        <a href="{{ url_for('upload') }}" class="button">Upload</a>
-        <a href="{{ url_for('update') }}" class="button">Fetch</a>
-
-        <h2>VersionChecker</h2>
-  
+        <h1>Selected host file: {{ selected_host }}</h1>
+        <div class="version-info">
+            <button id="fetch-button" class="button">Fetch</button>
+            <h2>VersionChecker</h2>
+        </div>
     </div>
-    </div>
-    </header>
-<body>   
+</header>
+    
     <div id="loading">
-    <!-- source https://loading.io/ -->
+        <!-- source https://loading.io/ -->
         <img src="{{ url_for('static', filename='images/loading.gif') }}" alt="Loading...">
     </div>
-   
+    <div id="notification" class="notification"></div>
     <main>
         <div class="container">
             <nav>
                 <div class="nav-buttons">
                     <div>
                         <h2>Choose host:</h2>
-                        
                     </div>
-
                     {% for host_file in hosts_files %}
                         <form action="/index" method="get" class="button-1">
                             <input type="hidden" name="host" value="{{ host_file }}">
@@ -48,22 +44,24 @@
                 </div>
             </nav>
             {% if data %}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Service</th>
-                            <th>Version</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for service, version in data.items() %}
-                            <tr>
-                                <td>{{ service }}</td>
-                                <td>{{ version }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Version</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service, version in data.items() %}
+                    <tr>
+                        <td>{{ service }}</td>
+                        <td>{{ version }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No data available for the selected host.</p>
             {% endif %}
         </div>
     </main>
@@ -72,7 +70,54 @@
         <div class="commit-id">Commit ID: {{ commit_id }}</div>
         <p class="small-text">Version: {{ version }}</p>
     </div>
-
+</footer>
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('fetch-button').addEventListener('click', function() {
+            const host = "{{ selected_host }}";
+            if (!host) {
+                showNotification("No host selected", "error");
+                return;
+            }
+
+            document.getElementById('loading').style.display = 'block';
+
+            fetch(`/update`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `host=${host}`
+            })
+            .then(response => {
+                document.getElementById('loading').style.display = 'none';
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                showNotification("Update successful", "success");
+                setTimeout(() => {
+                    location.reload();
+                }, 1000); // Reload the page to get updated data
+            })
+            .catch(error => {
+                showNotification("Error fetching data: " + error.message, "error");
+            });
+        });
+
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.innerText = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+    });
+</script>
 </body>
 </html>

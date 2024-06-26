@@ -1,0 +1,64 @@
+% **** Szablon pracy magisterskiej, licencjackiej lub inżynierskiej ****
+
+\documentclass[polish,12pt,twoside,a4paper]{report}
+
+\input{style.tex}
+
+%definicja przydatnych poleceń
+\newcommand{\wydzial}{KOLEGIUM INFORMATYKI STOSOWANEJ}
+\newcommand{\kierunek}{Kierunek: INFORMATYKA}
+\newcommand{\autor}{Filip Walat}
+\newcommand{\album}{Nr albumu studenta w67204}
+\newcommand{\temat}{Aplikacja pozwalająca na szybkie sprawdzenie wersji serwisów na serwerach Linux}
+\newcommand{\promotor}{Dr. Zofia Matusiewicz}
+\newcommand{\typpracy}{Praca projektowa technologie programistyczne IoT - Python}
+\newcommand{\miasto}{Rzeszów}
+\newcommand{\rok}{2024}
+\newcommand{\specjalnosc}{Technologie IoT – Internetu Rzeczy}
+
+\begin{document}
+
+% *************** Włączenie definicji pierwszych stron ***************
+\input{front.tex}
+
+
+% *************** Część główna pracy ***************
+\input{wstep.tex}
+\addcontentsline{toc}{chapter}{Wstęp}
+\newpage
+\input{R1.tex}
+\newpage
+\input{R2.tex}
+\newpage
+\input{R3.tex}
+\newpage
+\input{R4.tex}
+\newpage
+\input{R5.tex}
+\newpage
+
+% *************** Bibliografia ***************
+\begin{thebibliography}{9}
+
+    \bibitem{flaskdocs} 
+    Flask Documentation. 
+    \textit{Pallets Projects}. 
+    Available at: \url{https://flask.palletsprojects.com/en/3.0.x/}.
+    
+    \bibitem{paramikodocs} 
+    Paramiko Documentation. 
+    \textit{Paramiko Development Team}. 
+    Available at: \url{https://docs.paramiko.org/en/latest/}.
+    
+    \bibitem{jinja2docs} 
+    Jinja Documentation. 
+    \textit{Pallets Projects}. 
+    Available at: \url{https://jinja.palletsprojects.com/en/3.1.x/}.
+\end{thebibliography}
+\newpage
+
+% *************** Zakończenie ***************
+\input{back.tex}
+
+\end{document}
+% *************** Koniec pliku szablon.tex ***************
